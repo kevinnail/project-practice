@@ -40,26 +40,33 @@ conversionForm.addEventListener('submit', async (e) => {
         if (conversionSelect.value === item.title) {
             let x = refWeight / item.weight;
             let x2 = item.weight / refWeight;
-            if (x < 1) {
+            if (x < 0.0001) {
+                x = x.toFixed(6);
+                x2 = x2.toFixed(0);
+            } else if (x < 1) {
                 x = x.toFixed(4);
                 x2 = x2.toFixed(0);
             } else if (x < 100) {
                 x = x.toFixed(2);
                 x2 = x2.toFixed(2);
-            } else {
+            } else if (x < 1000) {
                 x = x.toFixed(0);
                 x2 = x2.toFixed(4);
+            } else {
+                x = x.toFixed(0);
+                x2 = x2.toFixed(6);
             }
             // render a post/ log conversion to profile here //////////////////////////////////////////
             conversionResult.textContent = `For ${refTitle} at ${refWeight} pounds...`;
             conversionResult2.textContent = `${refTitle} is approximately ${x} ${item.title_pl}`;
-            conversionResult3.textContent = `${item.title} is approximately ${x2} ${refTitle}s`;
+            conversionResult3.textContent = `A ${item.title} is approximately ${x2} ${refTitle}s`;
         }
     }
 
     const post = {
         title: refTitle,
         weight: refWeight,
+        conversion: conversionSelect.value,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;
