@@ -1,5 +1,6 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://hkmeiromistyyoyamiqu.supabase.co';
+const SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrbWVpcm9taXN0eXlveWFtaXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjU3OTExNzQsImV4cCI6MTk4MTM2NzE3NH0.F6CQcvz1NRw9xB36a30y8ivbkNX9XLw1u-6O9CQ5RZI';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Auth related functions */
@@ -27,3 +28,6 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+export async function createPost(post) {
+    return await client.from('posts').insert(post).single();
+}
