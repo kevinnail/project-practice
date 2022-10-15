@@ -40,10 +40,15 @@ conversionForm.addEventListener('submit', async (e) => {
     const refTitle = formData.get('title');
     const refWeight = formData.get('weight');
 
+    let x = null;
+    let x2 = null;
+    let factorWeight = null;
+
     for (const item of items) {
         if (conversionSelect.value === item.title) {
-            let x = refWeight / item.weight;
-            let x2 = item.weight / refWeight;
+            factorWeight = item.weight;
+            x = refWeight / factorWeight;
+            x2 = factorWeight / refWeight;
             if (x < 0.0001) {
                 x = x.toFixed(6);
                 x2 = x2.toFixed(0);
@@ -71,7 +76,9 @@ conversionForm.addEventListener('submit', async (e) => {
         title: refTitle,
         weight: refWeight,
         conversion: conversionSelect.value,
-        // weight_factor: item.weight,
+        weight_factor: factorWeight,
+        result_1: x,
+        result_2: x2,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;

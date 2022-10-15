@@ -11,9 +11,9 @@ export function renderPost(post) {
     const p = document.createElement('p');
     p.textContent = `For ${post.title} at ${post.weight} pounds...`;
     const p2 = document.createElement('p');
-    // p2.textContent = `${post.title} is approximately ${x} ${post.conversion}`;
+    p2.textContent = `${post.title} is approximately ${post.result_1} ${post.conversion}`;
     const p3 = document.createElement('p');
-    // p3.textContent = `A ${post.conversion} is approximately ${x2} ${post.title}s`;
+    p3.textContent = `A ${post.conversion} is approximately ${post.result_2} ${post.title}s`;
     li.append(p, p2, p3);
     return li;
 }
