@@ -9,7 +9,7 @@ import '../auth/user.js';
 const errorDisplay = document.getElementById('error-display');
 const conversionForm = document.getElementById('conversion-form');
 const conversionSelect = document.getElementById('conversion-select');
-
+const conversionResult = document.getElementById('conversion-result');
 // state
 let error = null;
 let items = [];
@@ -29,9 +29,19 @@ conversionForm.addEventListener('submit', async (e) => {
     const formData = new FormData(conversionForm);
 
     //////////////////////
-
+    const refTitle = formData.get('title');
     const refWeight = formData.get('weight');
-    conversionSelect.value;
+    // getWeight(conversionSelect.value);
+    // console.log('items:', items);
+
+    for (const item of items) {
+        if (conversionSelect.value === item.title) {
+            const x = refWeight / item.weight;
+            // alert(x);
+            conversionResult.textContent = `${refTitle} is approximately ${x} ${item.title}s`;
+            // render a post/ log conversion to profile here
+        }
+    }
 
     //////////////////////
     const post = {
