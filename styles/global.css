@@ -75,3 +75,10 @@ a {
     text-shadow: 0px 0px 10px white;
     color: black;
 }
+
+#post-list li {
+    background-color: rgb(0, 132, 247);
+    padding: 10px;
+    border: 2px solid black;
+    margin: 1rem;
+}

@@ -1,7 +1,7 @@
 // imports
 
-import { createPost, getItems } from '../fetch-utils.js';
-import { renderConversionOption } from '../render-utils.js';
+import { createPost, getItems, getPosts } from '../fetch-utils.js';
+import { renderConversionOption, renderPost } from '../render-utils.js';
 import '../auth/user.js';
 
 //  DOM elements
@@ -12,20 +12,24 @@ const conversionSelect = document.getElementById('conversion-select');
 const conversionResult = document.getElementById('conversion-result');
 const conversionResult2 = document.getElementById('conversion-result-2');
 const conversionResult3 = document.getElementById('conversion-result-3');
-
+const postList = document.getElementById('post-list');
 // state
 
 let error = null;
 let items = [];
-
+let posts = [];
 // events
 
 window.addEventListener('load', async () => {
     const conversionOption = await getItems();
     items = conversionOption.data;
 
+    const postList = await getPosts();
+    posts = postList.data;
+
     if (!error) {
         displayConversionOptions();
+        displayPosts();
     }
 });
 
@@ -57,9 +61,9 @@ conversionForm.addEventListener('submit', async (e) => {
                 x2 = x2.toFixed(6);
             }
             // render a post/ log conversion to profile here //////////////////////////////////////////
-            conversionResult.textContent = `For ${refTitle} at ${refWeight} pounds...`;
-            conversionResult2.textContent = `${refTitle} is approximately ${x} ${item.title_pl}`;
-            conversionResult3.textContent = `A ${item.title} is approximately ${x2} ${refTitle}s`;
+            // conversionResult.textContent = `For ${refTitle} at ${refWeight} pounds...`;
+            // conversionResult2.textContent = `${refTitle} is approximately ${x} ${item.title_pl}`;
+            // conversionResult3.textContent = `A ${item.title} is approximately ${x2} ${refTitle}s`;
         }
     }
 
@@ -67,15 +71,17 @@ conversionForm.addEventListener('submit', async (e) => {
         title: refTitle,
         weight: refWeight,
         conversion: conversionSelect.value,
+        // weight_factor: item.weight,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;
-    // conversionForm.reset();
 
     if (error) {
         displayError();
     } else {
-        // location.assign('/');
+        const postList = await getPosts();
+        posts = postList.data;
+        displayPosts();
     }
 });
 
@@ -93,5 +99,13 @@ function displayConversionOptions() {
     for (const item of items) {
         const option = renderConversionOption(item);
         conversionSelect.append(option);
+    }
+}
+
+function displayPosts() {
+    postList.innerHTML = '';
+    for (const post of posts) {
+        const postEl = renderPost(post);
+        postList.append(postEl);
     }
 }

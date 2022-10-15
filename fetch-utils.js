@@ -34,7 +34,9 @@ export async function createPost(post) {
 
 export async function getItems() {
     let query = client.from('conversion-factor').select('*').order('title');
-    // const response = await query;
-    // return response;
+    return await query;
+}
+export async function getPosts() {
+    let query = client.from('posts').select('*').order('created_at', { ascending: false });
     return await query;
 }
