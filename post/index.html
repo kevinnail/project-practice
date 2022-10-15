@@ -15,7 +15,7 @@
             defer
             src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.min.js"
         ></script>
-        <script type="module" src="app.js"></script>
+        <script type="module" src="post.js"></script>
 
         <!-- fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,19 +28,36 @@
         <!-- css -->
         <link rel="stylesheet" href="/styles/reset.css" />
         <link rel="stylesheet" href="/styles/global.css" />
+        <!-- <link rel="stylesheet" href="/styles/style.css" /> -->
         <!-- add link for page specific css -->
+        <!-- <link rel="stylesheet" href="/styles/post-detail.css" /> -->
     </head>
 
     <body>
         <header class="page-header">
-            <img class="logo" src="/assets/html_css_js.png" alt="logo" />
-            <p class="title">Supabase Web App</p>
+            <p class="title">Practice Apparoony</p>
             <nav>
-                <a href="/conversion/">Conversion</a>
-                <a id="sign-out-link" href="auth">Sign Out</a>
+                <a href="/">Home</a>
+                <a id="sign-out-link" href="./auth">Sign Out</a>
             </nav>
         </header>
 
-        <main></main>
+        <main>
+            <section class="post-container">
+                <h2 class="post-title">Title</h2>
+                <p class="post-description">Description</p>
+            </section>
+
+            <form id="conversion-form" class="add-comment-form">
+                <input name="title" placeholder="add a title/ name..." />
+                <input name="weight" placeholder="add the weight in lbs..." />
+                <select id="conversion-select"></select>
+                <button>Send</button>
+            </form>
+            <p id="conversion-result"></p>
+            <p id="conversion-result-2"></p>
+            <p id="conversion-result-3"></p>
+            <ul id="post-list" class="post-list"></ul>
+        </main>
     </body>
 </html>
