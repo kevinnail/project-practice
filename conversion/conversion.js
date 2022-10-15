@@ -27,8 +27,16 @@ window.addEventListener('load', async () => {
 conversionForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(conversionForm);
+
+    //////////////////////
+
+    const refWeight = formData.get('weight');
+    conversionSelect.value;
+
+    //////////////////////
     const post = {
-        description: formData.get('description'),
+        title: formData.get('title'),
+        weight: formData.get('weight'),
     };
     const response = await createPost(post);
     conversionForm.error = response.error;
