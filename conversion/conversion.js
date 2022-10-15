@@ -10,9 +10,14 @@ const errorDisplay = document.getElementById('error-display');
 const conversionForm = document.getElementById('conversion-form');
 const conversionSelect = document.getElementById('conversion-select');
 const conversionResult = document.getElementById('conversion-result');
+const conversionResult2 = document.getElementById('conversion-result-2');
+const conversionResult3 = document.getElementById('conversion-result-3');
+
 // state
+
 let error = null;
 let items = [];
+
 // events
 
 window.addEventListener('load', async () => {
@@ -28,29 +33,37 @@ conversionForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(conversionForm);
 
-    //////////////////////
     const refTitle = formData.get('title');
     const refWeight = formData.get('weight');
-    // getWeight(conversionSelect.value);
-    // console.log('items:', items);
 
     for (const item of items) {
         if (conversionSelect.value === item.title) {
-            const x = refWeight / item.weight;
-            // alert(x);
-            conversionResult.textContent = `${refTitle} is approximately ${x} ${item.title}s`;
-            // render a post/ log conversion to profile here
+            let x = refWeight / item.weight;
+            let x2 = item.weight / refWeight;
+            if (x < 1) {
+                x = x.toFixed(4);
+                x2 = x2.toFixed(0);
+            } else if (x < 100) {
+                x = x.toFixed(2);
+                x2 = x2.toFixed(2);
+            } else {
+                x = x.toFixed(0);
+                x2 = x2.toFixed(4);
+            }
+            // render a post/ log conversion to profile here //////////////////////////////////////////
+            conversionResult.textContent = `For ${refTitle} at ${refWeight} pounds...`;
+            conversionResult2.textContent = `${refTitle} is approximately ${x} ${item.title_pl}`;
+            conversionResult3.textContent = `${item.title} is approximately ${x2} ${refTitle}s`;
         }
     }
 
-    //////////////////////
     const post = {
-        title: formData.get('title'),
-        weight: formData.get('weight'),
+        title: refTitle,
+        weight: refWeight,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;
-    conversionForm.reset();
+    // conversionForm.reset();
 
     if (error) {
         displayError();
