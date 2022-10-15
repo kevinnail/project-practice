@@ -31,3 +31,10 @@ export async function signOutUser() {
 export async function createPost(post) {
     return await client.from('posts').insert(post).single();
 }
+
+export async function getItems() {
+    let query = client.from('conversion-factor').select('*').order('title');
+    const response = await query;
+
+    return response;
+}

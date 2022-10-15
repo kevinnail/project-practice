@@ -1,6 +1,6 @@
 :root {
-    --background: rgb(224, 234, 247);
-    --header-background: white;
+    --background: rgb(0, 96, 221);
+    --header-background: rgb(3, 161, 0);
     --text-color: rgb(7, 5, 68);
     --label-color: rgb(75, 102, 98);
     --placeholder-color: rgb(136, 136, 153);
@@ -68,4 +68,9 @@ main {
 
 .hidden {
     display: none;
+}
+
+a {
+    text-decoration: none;
+    text-shadow: 0px 0px 10px white;
 }
