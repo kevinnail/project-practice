@@ -33,10 +33,20 @@ export async function createPost(post) {
 }
 
 export async function getItems() {
-    let query = client.from('conversion-factor').select('*').order('title');
+    let query = client.from('conversion_factor').select(`*`).order('title');
     return await query;
 }
 export async function getPosts() {
-    let query = client.from('posts').select('*').order('created_at', { ascending: false });
+    let query = client.from('posts').select(`*`).order('created_at', { ascending: false });
+    return await query;
+}
+
+// can be used for searching for other conversions of each type
+export async function getItem(id) {
+    let query = client
+        .from('conversion_factor')
+        .select('*,posts(*)')
+        .eq('id', id)
+        .order('title', { foreignTable: 'posts', ascending: false });
     return await query;
 }

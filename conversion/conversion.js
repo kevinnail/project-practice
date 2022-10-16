@@ -1,6 +1,6 @@
 // imports
 
-import { createPost, getItems, getPosts } from '../fetch-utils.js';
+import { createPost, getItem, getItems, getPosts } from '../fetch-utils.js';
 import { renderConversionOption, renderPost } from '../render-utils.js';
 import '../auth/user.js';
 
@@ -9,9 +9,7 @@ import '../auth/user.js';
 const errorDisplay = document.getElementById('error-display');
 const conversionForm = document.getElementById('conversion-form');
 const conversionSelect = document.getElementById('conversion-select');
-const conversionResult = document.getElementById('conversion-result');
-const conversionResult2 = document.getElementById('conversion-result-2');
-const conversionResult3 = document.getElementById('conversion-result-3');
+
 const postList = document.getElementById('post-list');
 // state
 
@@ -35,6 +33,7 @@ window.addEventListener('load', async () => {
 
 conversionForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const formData = new FormData(conversionForm);
 
     const refTitle = formData.get('title');
@@ -43,10 +42,15 @@ conversionForm.addEventListener('submit', async (e) => {
     let x = null;
     let x2 = null;
     let factorWeight = null;
+    let factorID = null;
 
     for (const item of items) {
         if (conversionSelect.value === item.title) {
+            // const exp = await getItem(item.id);
+
             factorWeight = item.weight;
+            factorID = item.id;
+
             x = refWeight / factorWeight;
             x2 = factorWeight / refWeight;
             if (x < 0.0001) {
@@ -65,10 +69,8 @@ conversionForm.addEventListener('submit', async (e) => {
                 x = x.toFixed(0);
                 x2 = x2.toFixed(6);
             }
+
             // render a post/ log conversion to profile here //////////////////////////////////////////
-            // conversionResult.textContent = `For ${refTitle} at ${refWeight} pounds...`;
-            // conversionResult2.textContent = `${refTitle} is approximately ${x} ${item.title_pl}`;
-            // conversionResult3.textContent = `A ${item.title} is approximately ${x2} ${refTitle}s`;
         }
     }
 
@@ -79,6 +81,7 @@ conversionForm.addEventListener('submit', async (e) => {
         weight_factor: factorWeight,
         result_1: x,
         result_2: x2,
+        factor_id: factorID,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;

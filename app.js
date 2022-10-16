@@ -2,14 +2,14 @@
 // this will check if we have a user and set signout link if it exists
 
 import './auth/user.js';
-import { getItems } from './fetch-utils.js';
+// import { getItems } from './fetch-utils.js';
 
 /* Get DOM Elements */
 
 // conversionOption = document.getElementById('conversion-option');
 
 /* State */
-let items = [];
+// let items = [];
 
 /* Events */
 
