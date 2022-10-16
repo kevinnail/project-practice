@@ -43,16 +43,16 @@ conversionForm.addEventListener('submit', async (e) => {
     let x2 = null;
     let factorWeight = null;
     let factorID = null;
-
+    let factorPlural = null;
     for (const item of items) {
         if (conversionSelect.value === item.title) {
-            // const exp = await getItem(item.id);
-
             factorWeight = item.weight;
             factorID = item.id;
+            factorPlural = item.title_pl;
 
             x = refWeight / factorWeight;
             x2 = factorWeight / refWeight;
+
             if (x < 0.0001) {
                 x = x.toFixed(6);
                 x2 = x2.toFixed(0);
@@ -73,15 +73,18 @@ conversionForm.addEventListener('submit', async (e) => {
             // render a post/ log conversion to profile here //////////////////////////////////////////
         }
     }
-
+    x = `${refTitle} is equal to approximately ${x} ${factorPlural}`;
+    x2 = `A ${conversionSelect.value} is approximately ${x2} ${refTitle}s`;
+    // creating new post object/ inserting into database
     const post = {
         title: refTitle,
         weight: refWeight,
-        conversion: conversionSelect.value,
-        weight_factor: factorWeight,
+        // conversion: conversionSelect.value,
+        // weight_factor: factorWeight,
         result_1: x,
         result_2: x2,
         factor_id: factorID,
+        // conversion_pl: factorPlural,
     };
     const response = await createPost(post);
     conversionForm.error = response.error;

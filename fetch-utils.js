@@ -40,8 +40,12 @@ export async function getPosts() {
     let query = client.from('posts').select(`*`).order('created_at', { ascending: false });
     return await query;
 }
+export async function getPost(id) {
+    let query = client.from('posts').select('*').eq('id', id).single();
+    return await query;
+}
 
-// can be used for searching for other conversions of each type
+// can be used for searching for other conversions/ posts of each type
 export async function getItem(id) {
     let query = client
         .from('conversion_factor')
