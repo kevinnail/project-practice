@@ -1,6 +1,6 @@
 import '../auth/user.js';
 import { renderComment } from '../render-utils.js';
-import { getPost, createComment } from '../fetch-utils.js';
+import { getPost, createComment, getUser } from '../fetch-utils.js';
 
 // DOM
 const postTitle = document.getElementById('post-title');
@@ -8,10 +8,11 @@ const result_1 = document.getElementById('result-1');
 const result_2 = document.getElementById('result-2');
 const commentForm = document.getElementById('comment-form');
 const commentList = document.getElementById('comment-list');
+
 // state
 let error = null;
 let post = null;
-
+let user = getUser();
 //  events
 window.addEventListener('load', async () => {
     const searchParams = new URLSearchParams(location.search);
@@ -68,7 +69,7 @@ function displayComments() {
         // alert('displayComments firing');
         // console.log('post.comment', post.comment);
 
-        const commentEl = renderComment(comment);
+        const commentEl = renderComment(comment, user.id);
         commentList.append(commentEl);
     }
 }

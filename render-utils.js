@@ -24,10 +24,19 @@ export function renderPost(post) {
     return li;
 }
 
-export function renderComment(comment) {
+export function renderComment(comment, id) {
     const li = document.createElement('li');
-
     li.textContent = comment.text;
+    const button = document.createElement('button');
 
+    if (id === comment.user_id) {
+        li.classList.add('user-class');
+        button.textContent = 'delete';
+        li.append(button);
+
+        button.addEventListener('click', () => {
+            console.log('firing');
+        });
+    }
     return li;
 }

@@ -82,3 +82,17 @@ a {
     border: 2px solid black;
     margin: 1rem;
 }
+
+ul li {
+    background-color: rgb(0, 132, 247);
+    padding: 10px;
+    border: 2px solid black;
+    margin: 0.3 rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-class {
+    background-color: rgb(85, 0, 255);
+    color: white;
+}

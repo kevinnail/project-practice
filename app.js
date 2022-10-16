@@ -20,4 +20,5 @@ window.addEventListener('load', async () => {
     //     displayAstrosignOptions();
     // }
 });
+
 /* Display Functions */
