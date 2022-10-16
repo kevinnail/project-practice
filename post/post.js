@@ -1,6 +1,6 @@
 import '../auth/user.js';
 import { renderComment } from '../render-utils.js';
-import { getPost, createComment, getUser } from '../fetch-utils.js';
+import { getPost, createComment, getUser, deleteComment } from '../fetch-utils.js';
 
 // DOM
 const postTitle = document.getElementById('post-title');
@@ -70,6 +70,26 @@ function displayComments() {
         // console.log('post.comment', post.comment);
 
         const commentEl = renderComment(comment, user.id);
+        if (comment.user_id === user.id) {
+            const button = document.createElement('button');
+            button.textContent = 'delete';
+
+            commentEl.append(button);
+            // commentList.append(commentEl);
+
+            button.addEventListener('click', async () => {
+                const response = deleteComment(comment.id);
+                error = response.error;
+                if (error) {
+                    // displayError();
+                } else {
+                    const index = post.comments.indexOf(comment);
+                    post.comments.splice(index, 1);
+                    displayComments();
+                }
+            });
+        }
+
         commentList.append(commentEl);
     }
 }
