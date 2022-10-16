@@ -1,6 +1,13 @@
 import '../auth/user.js';
 import { renderComment } from '../render-utils.js';
-import { getPost, createComment, getUser, deleteComment } from '../fetch-utils.js';
+import {
+    getPost,
+    createComment,
+    getUser,
+    deleteComment,
+    onMessage,
+    getComment,
+} from '../fetch-utils.js';
 
 // DOM
 const postTitle = document.getElementById('post-title');
@@ -30,6 +37,19 @@ window.addEventListener('load', async () => {
     }
     displayPost();
     displayComments();
+
+    onMessage(post.id, async (payload) => {
+        const commentId = payload.new.id;
+        const commentResponse = await getComment(commentId);
+        error = commentResponse.error;
+        if (error) {
+            displayError();
+        } else {
+            const comment = commentResponse.data;
+            post.comments.unshift(comment);
+            displayComments();
+        }
+    });
 });
 
 commentForm.addEventListener('submit', async (e) => {

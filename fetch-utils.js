@@ -67,3 +67,10 @@ export async function createComment(comment) {
 export async function deleteComment(id) {
     return await client.from('comments').delete().eq('id', id).single();
 }
+export async function getComment(id) {
+    return await client.from('comments').select(`*`).eq('id', id).single();
+}
+
+export function onMessage(postId, handleComment) {
+    client.from(`comments:post_id=eq.${postId}`).on('INSERT', handleComment).subscribe();
+}
