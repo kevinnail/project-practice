@@ -11,6 +11,7 @@ export function renderPost(post) {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `/post/?id=${post.id}`;
+
     const p = document.createElement('p');
     p.textContent = `For ${post.title} at ${post.weight} pounds...`;
     const p2 = document.createElement('p');
@@ -20,5 +21,13 @@ export function renderPost(post) {
     a.append(p, p2, p3);
     // li.append(p, p2, p3);
     li.append(a);
+    return li;
+}
+
+export function renderComment(comment) {
+    const li = document.createElement('li');
+
+    li.textContent = comment.text;
+
     return li;
 }

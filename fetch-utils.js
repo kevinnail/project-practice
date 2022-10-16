@@ -41,7 +41,12 @@ export async function getPosts() {
     return await query;
 }
 export async function getPost(id) {
-    let query = client.from('posts').select('*').eq('id', id).single();
+    let query = client
+        .from('posts')
+        .select(`*,comments(*)`)
+        .eq('id', id)
+        .order('created_at', { foreignTable: 'comments', ascending: false })
+        .single();
     return await query;
 }
 
@@ -53,4 +58,8 @@ export async function getItem(id) {
         .eq('id', id)
         .order('title', { foreignTable: 'posts', ascending: false });
     return await query;
+}
+
+export async function createComment(comment) {
+    return await client.from('comments').insert(comment).single();
 }
