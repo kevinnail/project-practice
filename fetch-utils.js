@@ -74,3 +74,24 @@ export async function getComment(id) {
 export function onMessage(postId, handleComment) {
     client.from(`comments:post_id=eq.${postId}`).on('INSERT', handleComment).subscribe();
 }
+
+export async function updateProfile(profile) {
+    // > Part A: upsert into profiles table
+    // const response = await client.from('profiles').upsert(profile).single();
+
+    console.log('profile.user_name', profile.user_name);
+
+    const user = getUser();
+    const response = await client
+        .from('profiles')
+        // .update({ email: profile.email, user_name: profile.user_name })
+        .update({ email: profile.email, user_name: profile.user_name })
+        .match({ user_id: user.id });
+    return response;
+}
+
+export async function getProfile(id) {
+    // > Part B: get profile by id, maybe single row returned
+    const response = await client.from('profiles').select('*').eq('user_id', id).single();
+    return response;
+}

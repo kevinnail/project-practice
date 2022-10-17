@@ -67,8 +67,8 @@ commentForm.addEventListener('submit', async (e) => {
         // displayError();
         alert('error', error);
     } else {
-        const comment = response.data;
-        post.comments.unshift(comment);
+        // const comment = response.data;
+        // post.comments.unshift(comment);
 
         displayComments();
         commentForm.reset();
