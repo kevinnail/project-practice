@@ -79,13 +79,13 @@ export async function updateProfile(profile) {
     // > Part A: upsert into profiles table
     // const response = await client.from('profiles').upsert(profile).single();
 
-    // console.log('profile', profile);
+    console.log('profile in updateProfile', profile);
 
     const user = getUser();
     const response = await client
         .from('profiles')
         // .upsert({ email: profile.email, user_name: profile.user_name })
-        .update(profile)
+        .upsert(profile)
         .match({ user_id: user.id });
     return response;
 }

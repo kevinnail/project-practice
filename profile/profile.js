@@ -22,6 +22,7 @@ window.addEventListener('load', async () => {
     const response = await getProfile(user.id);
     console.log('user.id', user.id);
     console.log('response.data', response.data);
+    console.log('error', error);
 
     error = response.error;
     profile = response.data;
@@ -44,7 +45,7 @@ profileForm.addEventListener('submit', async (e) => {
 
     // create a form data object for easy access to form values
     const formData = new FormData(profileForm);
-    console.log('formData', formData.get('user_name'));
+    console.log('formData', formData);
 
     const profileUpdate = {
         user_name: formData.get('user_name'),
