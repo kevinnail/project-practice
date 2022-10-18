@@ -12,6 +12,7 @@ const bioTextArea = profileForm.querySelector('[name=email]');
 let profile = null;
 let error = null;
 const user = getUser();
+
 /* events */
 
 window.addEventListener('load', async () => {
@@ -19,8 +20,12 @@ window.addEventListener('load', async () => {
     //      - get the profile based on user.id
     //      - set profile and error state from response object
     const response = await getProfile(user.id);
+    console.log('user.id', user.id);
+    console.log('response.data', response.data);
+
     error = response.error;
     profile = response.data;
+
     if (error) {
         displayError();
     }
@@ -39,13 +44,19 @@ profileForm.addEventListener('submit', async (e) => {
 
     // create a form data object for easy access to form values
     const formData = new FormData(profileForm);
+    console.log('formData', formData.get('user_name'));
+
     const profileUpdate = {
-        username: formData.get('username'),
+        user_name: formData.get('user_name'),
         email: formData.get('email'),
     };
     //      - call updateProfile passing in profile update object, capture the response
     // const response = null; // ??????
+    // console.log('profileUpdate', profileUpdate);
+
     const response = await updateProfile(profileUpdate);
+    // console.log('response', response);
+
     error = response.error;
 
     // did it work?
@@ -55,15 +66,15 @@ profileForm.addEventListener('submit', async (e) => {
     } else {
         // > Part A: uncomment when working to redirect user
         // location.assign('../');
-        alert('else');
+        // alert('else');
     }
 });
 
 // display functions
 function displayProfile() {
     // > Part B: update user name and bio from profile object
-    console.log('profile username: ' + profile.username);
-    userNameInput.value = profile.username;
+    // console.log('profile username: ' + profile.username);
+    userNameInput.value = profile.user_name;
     bioTextArea.value = profile.email;
 }
 function displayError() {

@@ -79,13 +79,13 @@ export async function updateProfile(profile) {
     // > Part A: upsert into profiles table
     // const response = await client.from('profiles').upsert(profile).single();
 
-    console.log('profile.user_name', profile.user_name);
+    // console.log('profile', profile);
 
     const user = getUser();
     const response = await client
         .from('profiles')
-        // .update({ email: profile.email, user_name: profile.user_name })
-        .update({ email: profile.email, user_name: profile.user_name })
+        // .upsert({ email: profile.email, user_name: profile.user_name })
+        .update(profile)
         .match({ user_id: user.id });
     return response;
 }
@@ -93,5 +93,7 @@ export async function updateProfile(profile) {
 export async function getProfile(id) {
     // > Part B: get profile by id, maybe single row returned
     const response = await client.from('profiles').select('*').eq('user_id', id).single();
+    // console.log('response', response);
+
     return response;
 }
