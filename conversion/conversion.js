@@ -1,6 +1,6 @@
 // imports
 
-import { createPost, getItem, getItems, getPosts } from '../fetch-utils.js';
+import { createPost, getUser, getItems, getPosts, getProfile } from '../fetch-utils.js';
 import { renderConversionOption, renderPost } from '../render-utils.js';
 import '../auth/user.js';
 
@@ -9,13 +9,15 @@ import '../auth/user.js';
 const errorDisplay = document.getElementById('error-display');
 const conversionForm = document.getElementById('conversion-form');
 const conversionSelect = document.getElementById('conversion-select');
-
 const postList = document.getElementById('post-list');
+const userAvatar = document.getElementById('user-avatar');
 // state
 
 let error = null;
 let items = [];
 let posts = [];
+let profile = null;
+const user = getUser();
 // events
 
 window.addEventListener('load', async () => {
@@ -25,10 +27,15 @@ window.addEventListener('load', async () => {
     const postList = await getPosts();
     posts = postList.data;
 
+    const response = await getProfile(user.id);
+    profile = response.data;
+    console.log('profile.image_url', profile.image_url);
+
     if (!error) {
         displayConversionOptions();
         displayPosts();
     }
+    userAvatar.src = profile.image_url;
 });
 
 conversionForm.addEventListener('submit', async (e) => {

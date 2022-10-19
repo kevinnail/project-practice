@@ -33,14 +33,21 @@
 
     <body>
         <header class="page-header">
-            <img class="logo" src="/assets/html_css_js.png" alt="logo" />
-            <p class="title">Supabase Web App</p>
+            <p class="title">Users</p>
+            <p class="logged-in-as" style="">You are logged in as:</p>
+            <p id="profile-name"></p>
+            <img class="avatar" id="user-avatar" alt="user avatar" src="" />
             <nav>
-                <a href="/conversion/">Conversion</a>
-                <a id="sign-out-link" href="auth">Sign Out</a>
+                <a href="../">Home</a>
+                <a href="/profile/">Profile</a>
+                <a href="/conversion/">Conversions</a>
+
+                <a id="sign-out-link" href="../auth">Sign Out</a>
             </nav>
         </header>
 
-        <main></main>
+        <main>
+            <p id="error-display"></p>
+        </main>
     </body>
 </html>

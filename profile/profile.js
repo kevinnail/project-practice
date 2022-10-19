@@ -9,6 +9,8 @@ const userNameInput = profileForm.querySelector('[name=user_name]');
 const bioTextArea = profileForm.querySelector('[name=email]');
 const profileName = document.getElementById('profile-name');
 const previewImage = document.getElementById('preview');
+const userAvatar = document.getElementById('preview');
+const userAvatar2 = document.getElementById('user-avatar');
 
 /*  state */
 let profile = null;
@@ -28,8 +30,9 @@ window.addEventListener('load', async () => {
     }
     if (profile) {
         displayProfile();
-        profileName.textContent = profile.username;
-        previewImage.src = profile.image_url;
+        profileName.textContent = profile.user_name;
+        userAvatar.src = profile.image_url;
+        userAvatar2.src = profile.image_url;
     }
 });
 
@@ -62,7 +65,7 @@ profileForm.addEventListener('submit', async (e) => {
     if (error) {
         displayError();
     } else {
-        // something
+        location.assign('/profile');
     }
 });
 
