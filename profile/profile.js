@@ -1,12 +1,14 @@
 import '../auth/user.js';
-import { updateProfile, getProfile, getUser } from '../fetch-utils.js';
+import { updateProfile, getProfile, getUser, uploadImage } from '../fetch-utils.js';
 
 // DOM
-const updateButton = document.getElementById('update-button');
+const uploadButton = document.getElementById('upload-button');
 const profileForm = document.getElementById('profile-form');
 const errorDisplay = document.getElementById('error-display');
 const userNameInput = profileForm.querySelector('[name=user_name]');
 const bioTextArea = profileForm.querySelector('[name=email]');
+const profileName = document.getElementById('profile-name');
+const previewImage = document.getElementById('preview');
 
 /*  state */
 let profile = null;
@@ -16,13 +18,7 @@ const user = getUser();
 /* events */
 
 window.addEventListener('load', async () => {
-    // > Part B:
-    //      - get the profile based on user.id
-    //      - set profile and error state from response object
     const response = await getProfile(user.id);
-    console.log('user.id', user.id);
-    console.log('response.data', response.data);
-    console.log('error', error);
 
     error = response.error;
     profile = response.data;
@@ -32,42 +28,50 @@ window.addEventListener('load', async () => {
     }
     if (profile) {
         displayProfile();
+        profileName.textContent = profile.username;
+        previewImage.src = profile.image_url;
     }
 });
 
 profileForm.addEventListener('submit', async (e) => {
-    // keep the form from changing the browser page
     e.preventDefault();
 
-    // niceties for "saving" and errors:
-    // reset the error
-    errorDisplay.textContent = '';
-
-    // create a form data object for easy access to form values
     const formData = new FormData(profileForm);
-    console.log('formData', formData);
+    let url = null;
 
-    const profileUpdate = {
+    const imageFile = formData.get('avatar_url');
+
+    if (imageFile) {
+        const randomFolder = Math.floor(Date.now() * Math.random());
+        const imagePath = `/${randomFolder}/${imageFile.name}`;
+
+        url = await uploadImage('avatars', imagePath, imageFile);
+    }
+
+    const profile = {
         user_name: formData.get('user_name'),
         email: formData.get('email'),
+        image_url: url,
+        user_id: user.id,
     };
-    //      - call updateProfile passing in profile update object, capture the response
-    // const response = null; // ??????
-    // console.log('profileUpdate', profileUpdate);
 
-    const response = await updateProfile(profileUpdate);
-    // console.log('response', response);
+    const response = await updateProfile(profile);
 
     error = response.error;
 
-    // did it work?
     if (error) {
-        // display the error
         displayError();
     } else {
-        // > Part A: uncomment when working to redirect user
-        // location.assign('../');
-        // alert('else');
+        // something
+    }
+});
+
+uploadButton.addEventListener('change', () => {
+    const file = uploadButton.files[0];
+    if (file) {
+        previewImage.src = URL.createObjectURL(file);
+    } else {
+        previewImage.src = '../assets/place-holder.png';
     }
 });
 

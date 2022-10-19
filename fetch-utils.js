@@ -76,24 +76,23 @@ export function onMessage(postId, handleComment) {
 }
 
 export async function updateProfile(profile) {
-    // > Part A: upsert into profiles table
-    // const response = await client.from('profiles').upsert(profile).single();
-
-    console.log('profile in updateProfile', profile);
-
-    const user = getUser();
-    const response = await client
-        .from('profiles')
-        // .upsert({ email: profile.email, user_name: profile.user_name })
-        .upsert(profile)
-        .match({ user_id: user.id });
-    return response;
+    return await client.from('profiles').upsert(profile).single().eq('user_id', profile.user_id);
 }
 
 export async function getProfile(id) {
-    // > Part B: get profile by id, maybe single row returned
-    const response = await client.from('profiles').select('*').eq('user_id', id).single();
-    // console.log('response', response);
+    return await client.from('profiles').select('*').eq('user_id', id).maybeSingle();
+}
 
-    return response;
+export async function uploadImage(bucketName, imagePath, imageFile) {
+    const bucket = client.storage.from(bucketName);
+
+    const response = await bucket.upload(imagePath, imageFile, {
+        cacheControl: '3600',
+        upsert: true,
+    });
+    if (response.error) {
+        return null;
+    }
+    const url = `${SUPABASE_URL}/storage/v1/object/public/${response.data.Key}`;
+    return url;
 }

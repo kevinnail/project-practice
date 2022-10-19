@@ -36,6 +36,9 @@
     <body>
         <header class="page-header">
             <p class="title">Users</p>
+            <p class="logged-in-as" style="">You are logged in as:</p>
+            <p id="profile-name"></p>
+            <img class="avatar" id="user-avatar" alt="user avatar" src="" />
             <nav>
                 <a href="../">Home</a>
                 <a href="/profile/">Profile</a>
@@ -59,13 +62,13 @@
 
                 <label>
                     <div>Avatar</div>
-                    <input type="file" name="avatar_url" placeholder="upload an image..." />
-                    <img
-                        id="preview"
-                        class="avatar"
-                        alt="avatar preview"
-                        src="/assets/avatar-test.jpeg"
+                    <input
+                        id="upload-button"
+                        type="file"
+                        name="avatar_url"
+                        placeholder="upload an image..."
                     />
+                    <img id="preview" class="avatar" alt="avatar preview" src="" />
                 </label>
 
                 <label>
@@ -73,7 +76,7 @@
                     <textarea name="email" required placeholder="email address"></textarea>
                 </label>
 
-                <button id="update-button">Update Profile</button>
+                <button>Update Profile</button>
 
                 <p id="error-display"></p>
             </form>
